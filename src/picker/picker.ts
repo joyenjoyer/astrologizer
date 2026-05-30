@@ -16,6 +16,22 @@ export const COMPLAINT_NATURES: ComplaintNature[] = [
 ];
 
 /**
+ * A node in the picker tree: either a branch the user drills into, or a leaf
+ * that selects an atomic seat. A seat may be reachable by more than one path
+ * (e.g. the heart seat appears under both "Heart" and "Back").
+ */
+export type PickerNode =
+  | { kind: "branch"; label: string; children: PickerNode[] }
+  | { kind: "seat"; label: string; seatId: string };
+
+/** Every seat id reachable as a leaf anywhere in the given tree. */
+export function flattenSeatIds(nodes: PickerNode[]): string[] {
+  return nodes.flatMap((node) =>
+    node.kind === "seat" ? [node.seatId] : flattenSeatIds(node.children),
+  );
+}
+
+/**
  * Map a two-level picker selection — the affected seat plus the chosen nature
  * of the complaint — to an Issue. The quality comes from the user's choice, not
  * the seat's own resting quality.

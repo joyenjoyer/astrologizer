@@ -6,11 +6,15 @@ export type Dignities = {
   exaltation: Sign[];
 };
 
-// Classical essential dignities. Filled in as planets come into use.
+// Classical essential dignities (domicile + exaltation) for all seven planets.
 const DIGNITY_TABLE: Partial<Record<Planet, Dignities>> = {
   Sun: { domicile: ["Leo"], exaltation: ["Aries"] },
   Moon: { domicile: ["Cancer"], exaltation: ["Taurus"] },
+  Mercury: { domicile: ["Gemini", "Virgo"], exaltation: ["Virgo"] },
   Venus: { domicile: ["Taurus", "Libra"], exaltation: ["Pisces"] },
+  Mars: { domicile: ["Aries", "Scorpio"], exaltation: ["Capricorn"] },
+  Jupiter: { domicile: ["Sagittarius", "Pisces"], exaltation: ["Cancer"] },
+  Saturn: { domicile: ["Capricorn", "Aquarius"], exaltation: ["Libra"] },
 };
 
 /** The dignified signs for a planet — its domicile(s) and exaltation(s). */
