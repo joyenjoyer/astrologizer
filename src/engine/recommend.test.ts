@@ -45,3 +45,34 @@ describe("recommend — by sympathy", () => {
     expect(recommend(heartIssue)).toEqual(recommend(heartIssue));
   });
 });
+
+describe("recommend — by antipathy", () => {
+  it("strengthens planets whose nature is contrary to the affliction", () => {
+    // A hot & dry complaint is countered by the cold & wet planets: Moon, Venus.
+    const rec = recommend(heartIssue);
+    const planets = rec.antipathy.entries.map((e) => e.planet).sort();
+    expect(planets).toEqual(["Moon", "Venus"]);
+  });
+
+  it("does not enlist the planets that share the affliction's own nature", () => {
+    const rec = recommend(heartIssue);
+    const planets = rec.antipathy.entries.map((e) => e.planet);
+    expect(planets).not.toContain("Sun");
+    expect(planets).not.toContain("Mars");
+  });
+
+  it("places each contrary planet in its dignified signs, labeled", () => {
+    const { antipathy } = recommend(heartIssue);
+    const moon = antipathy.entries.find((e) => e.planet === "Moon")!;
+    expect(moon.signs).toContainEqual({ sign: "Cancer", dignity: "domicile" });
+    expect(moon.signs).toContainEqual({ sign: "Taurus", dignity: "exaltation" });
+  });
+
+  it("carries the antipathy method, a rationale, a citation, and the system", () => {
+    const { antipathy } = recommend(heartIssue);
+    expect(antipathy.method).toBe("antipathy");
+    expect(antipathy.rationale).not.toBe("");
+    expect(antipathy.citations.length).toBeGreaterThan(0);
+    expect(antipathy.system).toBe("classical-western");
+  });
+});

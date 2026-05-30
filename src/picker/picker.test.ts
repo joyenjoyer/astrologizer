@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { loadKnowledgeBase } from "../engine/knowledgeBase.ts";
-import { selectSeat } from "./picker.ts";
+import { selectIssue, COMPLAINT_NATURES } from "./picker.ts";
 
 const kb = loadKnowledgeBase([
   {
@@ -14,18 +14,31 @@ const kb = loadKnowledgeBase([
   },
 ]);
 
-describe("selectSeat", () => {
+describe("selectIssue", () => {
   it("builds an issue for the selected seat", () => {
-    const issue = selectSeat(kb, "heart");
+    const issue = selectIssue(kb, "heart", { temperature: "hot", moisture: "dry" });
     expect(issue.seat.id).toBe("heart");
   });
 
-  it("defaults the issue quality to the seat's own quality (no quality step yet)", () => {
-    const issue = selectSeat(kb, "heart");
-    expect(issue.quality).toEqual({ temperature: "hot", moisture: "dry" });
+  it("uses the chosen complaint quality, not the seat's own quality", () => {
+    const issue = selectIssue(kb, "heart", { temperature: "cold", moisture: "wet" });
+    expect(issue.quality).toEqual({ temperature: "cold", moisture: "wet" });
   });
 
   it("throws when the seat is not in the knowledge base", () => {
-    expect(() => selectSeat(kb, "nope")).toThrow(/unknown seat/i);
+    expect(() =>
+      selectIssue(kb, "nope", { temperature: "hot", moisture: "dry" }),
+    ).toThrow(/unknown seat/i);
+  });
+});
+
+describe("COMPLAINT_NATURES", () => {
+  it("offers a labeled humoral quality for every temperature/moisture combination", () => {
+    expect(COMPLAINT_NATURES).toHaveLength(4);
+    for (const nature of COMPLAINT_NATURES) {
+      expect(nature.label).toBeTruthy();
+      expect(nature.quality).toHaveProperty("temperature");
+      expect(nature.quality).toHaveProperty("moisture");
+    }
   });
 });

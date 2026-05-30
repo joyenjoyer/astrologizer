@@ -9,6 +9,8 @@ export type Dignities = {
 // Classical essential dignities. Filled in as planets come into use.
 const DIGNITY_TABLE: Partial<Record<Planet, Dignities>> = {
   Sun: { domicile: ["Leo"], exaltation: ["Aries"] },
+  Moon: { domicile: ["Cancer"], exaltation: ["Taurus"] },
+  Venus: { domicile: ["Taurus", "Libra"], exaltation: ["Pisces"] },
 };
 
 /** The dignified signs for a planet — its domicile(s) and exaltation(s). */
