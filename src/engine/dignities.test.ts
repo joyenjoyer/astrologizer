@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { dignitiesOf } from "./dignities.ts";
+import { dignitiesOf, dignityCitationOf } from "./dignities.ts";
+import { validateCitation } from "./knowledgeBase.ts";
 import type { Planet } from "./types.ts";
 
 const ALL_PLANETS: Planet[] = [
@@ -70,5 +71,15 @@ describe("dignitiesOf", () => {
 
   it("throws for a planet with no dignities defined", () => {
     expect(() => dignitiesOf("Pluto" as never)).toThrow(/no dignities/i);
+  });
+});
+
+describe("dignityCitationOf", () => {
+  it("gives every planet a well-formed Ptolemy citation with a verbatim quote", () => {
+    for (const planet of ALL_PLANETS) {
+      const citation = dignityCitationOf(planet);
+      expect(() => validateCitation(citation, planet)).not.toThrow();
+      expect(citation.source).toMatch(/ptolemy|tetrabiblos/i);
+    }
   });
 });

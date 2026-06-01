@@ -1,6 +1,7 @@
 # PRD: Astrologizer — Medical Astrology Configuration Recommender (Starter)
 
-> Status: ready-for-agent (not yet published to an issue tracker — none configured)
+> Status: shipped (slices 1–3), but PARTIALLY SUPERSEDED as of 2026-05-31.
+> The antipathy doctrine, the humoral-quality input, and the citation model described here are replaced by `docs/PRD-redesign-citable-antipathy.md` (and ADRs 0002, 0003). The melothesia seat data, the engine/UI split, the `system` field, and the offline/deterministic stance below still stand.
 > Vocabulary: see `CONTEXT.md`. Respects `docs/adr/0001-anchor-one-system-model-for-many.md`.
 
 ## Problem Statement

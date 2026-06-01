@@ -23,7 +23,7 @@ describe("the starter seat set", () => {
 
   it("produces both a sympathy and an antipathy configuration for every seat", () => {
     for (const seat of kb.listSeats()) {
-      const rec = recommend(selectIssue(kb, seat.id, seat.quality));
+      const rec = recommend(selectIssue(kb, seat.id));
       expect(rec.sympathy.entries.length).toBeGreaterThan(0);
       expect(rec.antipathy.entries.length).toBeGreaterThan(0);
     }

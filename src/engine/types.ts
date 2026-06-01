@@ -36,21 +36,36 @@ export type HumoralQuality = {
 /** A named astrological tradition (ADR-0001). Only one is populated for now. */
 export type System = "classical-western";
 
+/**
+ * A verbatim passage from a classical source backing a single knowledge unit
+ * (a seat→ruler mapping, a planet's dignities, its temperament, or the
+ * contrary-pairing doctrine). The app's credibility rests on a skeptic being
+ * able to read the source's own words, so a quote is mandatory.
+ * See docs/adr/0002-citations-on-knowledge-units.md.
+ */
+export type Citation = {
+  source: string;
+  locator: string;
+  quote: string;
+};
+
 /** A seat is atomic for now: it maps to exactly one ruling sign + planet. */
 export type Seat = {
   id: string;
   label: string;
   rulingSign: Sign;
   rulingPlanet: Planet;
-  quality: HumoralQuality;
-  citation: string;
+  citation: Citation;
   system: System;
 };
 
-/** What the person is addressing: a seat plus the quality of the complaint. */
+/**
+ * What the person is addressing: a seat, and nothing more. The humoral nature
+ * of the complaint is no longer asked for — antipathy is determined entirely by
+ * the seat's ruling planet (see docs/adr/0003-antipathy-by-contrary-planet.md).
+ */
 export type Issue = {
   seat: Seat;
-  quality: HumoralQuality;
 };
 
 export type TreatmentMethod = "sympathy" | "antipathy";
@@ -72,7 +87,7 @@ export type Configuration = {
   system: System;
   entries: ConfigurationEntry[];
   rationale: string;
-  citations: string[];
+  citations: Citation[];
 };
 
 export type Recommendation = {

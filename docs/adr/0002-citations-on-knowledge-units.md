@@ -1,0 +1,11 @@
+# Citations attach to knowledge units, with mandatory verbatim quotes
+
+A recommendation is not derived from a single source. Sympathy comes from a body-part rulership (melothesia) **and** the ruling planet's dignities; antipathy comes from the complaint's quality, the cure-by-contraries doctrine, the planetary temperaments, **and** dignities. So we attach a citation to each **knowledge unit** — every seat→ruler mapping, every planet's dignities, every planet's temperament, and the contraries doctrine — and the engine aggregates the citations of the units that actually produced a given configuration. A configuration's `citations` are therefore computed, not authored alongside the result.
+
+Each citation must carry a **verified verbatim quote**, not just a reference: the app's entire credibility rests on a skeptic being able to read the classical words that justify a recommendation. A recommendation does not ship until every knowledge unit behind it has a transcribed, verified quote (load-time validation enforces presence of source + locator + quote). We accept the real authoring cost this imposes — sourcing passages for all dignity cells and temperaments — because a citation a reader can't check is the exact failure mode this app exists to avoid.
+
+Sources are deliberately limited to two pillars: **Ptolemy's _Tetrabiblos_** for the astrological mechanics (essential dignities, planetary natures/temperaments, the contraries framing) and **Culpeper's _Astrological Judgement of Diseases_ (1655)** for the melothesia and its medical application. Both are widely available, which keeps quotes verifiable.
+
+One narrow exemption: the `unafflicted` condition is a generic prescriptive instruction ("place the planet free of hard aspects from malefics"), not a sourced fact, so it does not require a verbatim quote. The sourced facts behind a recommendation — the seat→ruler mapping, the dignities, the contrary-planet pairing — still do.
+
+This was chosen over the simpler "one citation string per result" model that existed in the first slices — under which antipathy cited Culpeper's body-part mapping for a result actually derived from planetary temperaments Culpeper never discusses. A future reader should not "simplify" unit-level citations back down to a single per-output string: the granularity is what makes each recommendation honestly traceable.

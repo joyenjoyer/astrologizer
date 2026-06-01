@@ -2,13 +2,24 @@
 // melothesia — one atomic seat per sign — plus two non-physical seats for the
 // mind and the emotions. Validated at load by loadKnowledgeBase().
 //
-// Humoral quality follows the triplicity of each seat's ruling sign:
-//   Fire (Aries/Leo/Sagittarius) hot & dry · Earth (Taurus/Virgo/Capricorn) cold & dry
-//   Air (Gemini/Libra/Aquarius) hot & wet · Water (Cancer/Scorpio/Pisces) cold & wet
+// An Issue is a seat and nothing more: the humoral nature of the complaint is
+// no longer modelled here (see docs/adr/0003-antipathy-by-contrary-planet.md).
 //
 // Source for the melothesia and rulerships: Culpeper, Astrological Judgement
-// of Diseases (1655).
-const CULPEPER = "Culpeper, Astrological Judgement of Diseases (1655)";
+// of Diseases (1655). Each seat→ruler mapping is a knowledge unit and carries
+// its own verbatim citation (docs/adr/0002-citations-on-knowledge-units.md).
+//
+// NOTE: Culpeper's text could not be sourced freely online, so the quotes below
+// are UNVERIFIED PLACEHOLDER paraphrases of the melothesia, not transcriptions.
+// Each must be replaced with a verbatim passage before it can ship as cited.
+// See docs/citations-verification.md.
+import type { Citation } from "../engine/types.ts";
+
+const CULPEPER = (locator: string, quote: string): Citation => ({
+  source: "Culpeper, Astrological Judgement of Diseases (1655)",
+  locator,
+  quote: `[unverified placeholder — needs real Culpeper passage] ${quote}`,
+});
 
 export const SEATS = [
   {
@@ -16,8 +27,7 @@ export const SEATS = [
     label: "Head, face & brain",
     rulingSign: "Aries",
     rulingPlanet: "Mars",
-    quality: { temperature: "hot", moisture: "dry" },
-    citation: CULPEPER,
+    citation: CULPEPER("Aries", "Aries governs the head and face."),
     system: "classical-western",
   },
   {
@@ -25,8 +35,7 @@ export const SEATS = [
     label: "Neck & throat",
     rulingSign: "Taurus",
     rulingPlanet: "Venus",
-    quality: { temperature: "cold", moisture: "dry" },
-    citation: CULPEPER,
+    citation: CULPEPER("Taurus", "Taurus governs the neck and throat."),
     system: "classical-western",
   },
   {
@@ -34,8 +43,7 @@ export const SEATS = [
     label: "Arms, hands & lungs",
     rulingSign: "Gemini",
     rulingPlanet: "Mercury",
-    quality: { temperature: "hot", moisture: "wet" },
-    citation: CULPEPER,
+    citation: CULPEPER("Gemini", "Gemini governs the arms, hands and shoulders."),
     system: "classical-western",
   },
   {
@@ -43,8 +51,7 @@ export const SEATS = [
     label: "Chest & stomach",
     rulingSign: "Cancer",
     rulingPlanet: "Moon",
-    quality: { temperature: "cold", moisture: "wet" },
-    citation: CULPEPER,
+    citation: CULPEPER("Cancer", "Cancer governs the breast and stomach."),
     system: "classical-western",
   },
   {
@@ -52,8 +59,7 @@ export const SEATS = [
     label: "Heart, upper back & spine",
     rulingSign: "Leo",
     rulingPlanet: "Sun",
-    quality: { temperature: "hot", moisture: "dry" },
-    citation: CULPEPER,
+    citation: CULPEPER("Leo", "Leo governs the heart and back."),
     system: "classical-western",
   },
   {
@@ -61,8 +67,7 @@ export const SEATS = [
     label: "Abdomen, intestines & digestion",
     rulingSign: "Virgo",
     rulingPlanet: "Mercury",
-    quality: { temperature: "cold", moisture: "dry" },
-    citation: CULPEPER,
+    citation: CULPEPER("Virgo", "Virgo governs the bowels and belly."),
     system: "classical-western",
   },
   {
@@ -70,8 +75,7 @@ export const SEATS = [
     label: "Lower back & kidneys",
     rulingSign: "Libra",
     rulingPlanet: "Venus",
-    quality: { temperature: "hot", moisture: "wet" },
-    citation: CULPEPER,
+    citation: CULPEPER("Libra", "Libra governs the reins and kidneys."),
     system: "classical-western",
   },
   {
@@ -79,8 +83,7 @@ export const SEATS = [
     label: "Genitals & bladder",
     rulingSign: "Scorpio",
     rulingPlanet: "Mars",
-    quality: { temperature: "cold", moisture: "wet" },
-    citation: CULPEPER,
+    citation: CULPEPER("Scorpio", "Scorpio governs the secret members and bladder."),
     system: "classical-western",
   },
   {
@@ -88,8 +91,7 @@ export const SEATS = [
     label: "Hips & thighs",
     rulingSign: "Sagittarius",
     rulingPlanet: "Jupiter",
-    quality: { temperature: "hot", moisture: "dry" },
-    citation: CULPEPER,
+    citation: CULPEPER("Sagittarius", "Sagittarius governs the hips and thighs."),
     system: "classical-western",
   },
   {
@@ -97,8 +99,7 @@ export const SEATS = [
     label: "Knees, bones & skin",
     rulingSign: "Capricorn",
     rulingPlanet: "Saturn",
-    quality: { temperature: "cold", moisture: "dry" },
-    citation: CULPEPER,
+    citation: CULPEPER("Capricorn", "Capricorn governs the knees."),
     system: "classical-western",
   },
   {
@@ -106,8 +107,7 @@ export const SEATS = [
     label: "Calves, ankles & circulation",
     rulingSign: "Aquarius",
     rulingPlanet: "Saturn",
-    quality: { temperature: "hot", moisture: "wet" },
-    citation: CULPEPER,
+    citation: CULPEPER("Aquarius", "Aquarius governs the legs and ankles."),
     system: "classical-western",
   },
   {
@@ -115,8 +115,7 @@ export const SEATS = [
     label: "Feet",
     rulingSign: "Pisces",
     rulingPlanet: "Jupiter",
-    quality: { temperature: "cold", moisture: "wet" },
-    citation: CULPEPER,
+    citation: CULPEPER("Pisces", "Pisces governs the feet."),
     system: "classical-western",
   },
   {
@@ -124,8 +123,7 @@ export const SEATS = [
     label: "Mind, intellect & nerves",
     rulingSign: "Gemini",
     rulingPlanet: "Mercury",
-    quality: { temperature: "hot", moisture: "wet" },
-    citation: CULPEPER,
+    citation: CULPEPER("Mercury / Gemini", "Mercury governs the brain, tongue and the rational faculty."),
     system: "classical-western",
   },
   {
@@ -133,8 +131,7 @@ export const SEATS = [
     label: "Emotions & moods",
     rulingSign: "Cancer",
     rulingPlanet: "Moon",
-    quality: { temperature: "cold", moisture: "wet" },
-    citation: CULPEPER,
+    citation: CULPEPER("Moon / Cancer", "The Moon governs the affections and the moist humours of the body."),
     system: "classical-western",
   },
 ];
