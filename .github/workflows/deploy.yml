@@ -1,0 +1,51 @@
+# Build, gate on tests, and deploy to GitHub Pages.
+#
+# Deploy design: docs/adr/0004 (deploy with placeholder citations) and the
+# grilled decisions — official GitHub Actions Pages path, gated on typecheck +
+# tests, Node pinned via .nvmrc. The Pages source must be set to "GitHub
+# Actions" once in repo Settings → Pages (cannot be done from this file).
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Native Pages permissions — no PAT, no gh-pages branch.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never abort a half-finished Pages deploy (GitHub's recommended setting).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
